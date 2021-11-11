@@ -46,3 +46,12 @@ jobs:
         gcloud builds submit \
           --quiet \
           --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
+
+
+    - name: Deploy to Cloud Run
+      run: |-
+        gcloud run deploy $SERVICE_NAME \
+          --region $REGION \
+          --image gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA \
+          --platform managed \
+          --set-env-vars NAME="Hello World"
